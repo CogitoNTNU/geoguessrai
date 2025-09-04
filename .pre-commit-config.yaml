@@ -11,7 +11,7 @@ exclude: |
   )$
 fail_fast: true
 default_language_version:
-  python: python3.11
+  python: python3.12
 default_install_hook_types:
   - pre-commit
   - commit-msg
