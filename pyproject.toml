@@ -1,0 +1,34 @@
+[project]
+name = "PROJECT-TEMPLATE"
+version = "0.0.1"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+license-files = ["LICENSE"]
+dependencies = []
+
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.2.0",
+    "pytest>=8.4.1",
+    "pytest-cov>=6.2.1",
+]
+
+docs = [
+    "mkdocs>=1.6.1",
+    "mkdocs-api-autonav>=0.3.0",
+    "mkdocs-autoapi>=0.4.1",
+    "mkdocs-awesome-nav>=3.1.2",
+    "mkdocs-material>=9.6.16",
+    "mkdocstrings>=0.30.0",
+    "mkdocstrings-python>=1.16.12",
+]
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "$version"
+version_scheme = "pep440"
+version_provider = "uv"
+update_changelog_on_bump = true
+major_version_zero = true

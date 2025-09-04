@@ -1,0 +1,90 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  pull-requests: write
+  contents: write
+
+env:
+  PYTHON_VERSION: "3.12"
+
+jobs:
+  build-and-test:
+    name: continuous-integration
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: "Set up Python"
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+            enable-cache: true
+
+      - name: Run pre-commit hooks (optional)
+        run: |
+          uv pip install --system pre-commit
+          pre-commit run --all-files || true
+        continue-on-error: true
+
+      - name: Install and sync dependencies
+        run: |
+          uv sync --locked --all-extras
+
+      - name: Run root tests
+        run: |
+            uv run pytest --doctest-modules --cov=src --cov-report=html
+
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: [build-and-test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: "Set up Python"
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+            enable-cache: true
+      - name: Install and sync dependencies
+        run: |
+          uv sync --group=docs --locked
+          
+      - name: Configure Git Credentials
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
+      - run: uv run mkdocs gh-deploy --force
+
+  dependabot:
+    name: 'Dependabot'
+    needs: [build-and-test] 
+    runs-on: ubuntu-latest
+    if: ${{ github.actor == 'dependabot[bot]' && github.event_name == 'pull_request'}} 
+    steps:
+      - name: Enable auto-merge for Dependabot PRs
+        # Uses Github CLI to automatically merge the PR if test passes
+        run: gh pr merge --auto --merge "$PR_URL" 
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

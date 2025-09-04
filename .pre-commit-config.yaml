@@ -1,0 +1,142 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+exclude: |
+  (?x)^(
+      docs/site/.*|       # Exclude mkdocs compiled files
+      docs/docs/jupyter-notebooks_files/.*|       # Exclude Jupyter Notebooks files
+      jupyter-experiments/.*|       # Exclude jupyter-experiments
+      \.history/.*|       # Exclude history files
+      .*cache.*/.*|       # Exclude cache directories
+      .*venv.*/.*|        # Exclude virtual environment directories
+  )$
+fail_fast: true
+default_language_version:
+  python: python3.11
+default_install_hook_types:
+  - pre-commit
+  - commit-msg
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      # Filesystem Checks
+      - id: check-executables-have-shebangs
+        name: "📁 filesystem/⚙️ exec · Verify shebang presence"
+      - id: check-shebang-scripts-are-executable
+        name: "📁 filesystem/⚙️ exec · Verify script permissions"
+      - id: check-case-conflict
+        name: "📁 filesystem/📝 names · Check case sensitivity"
+      - id: check-illegal-windows-names
+        name: "📁 filesystem/📝 names · Validate Windows filenames"
+      - id: check-symlinks
+        name: "📁 filesystem/🔗 symlink · Check symlink validity"
+      - id: destroyed-symlinks
+        name: "📁 filesystem/🔗 symlink · Detect broken symlinks"
+      - id: check-yaml
+        name: "📁 filesystem/📝 yaml · Validate YAML files"
+        types: [yaml]
+      - id: check-json
+        name: "📁 filesystem/📝 json · Validate JSON files"
+      - id: check-ast
+        name: "🐍 python/📝 ast · Validate Python syntax"
+        description: simply checks whether the files parse as valid python.
+      # ------------------------------- 🌳 Git Tools ------------------------------- #
+      - id: check-merge-conflict
+        name: "🌳 git · Detect conflict markers"
+      - id: forbid-new-submodules
+        name: "🌳 git · Prevent submodule creation"
+
+  # --------------------------- 🔍 Code Quality Tools -------------------------- #
+
+  ### Python Tools
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.12.5
+    hooks:
+      - id: ruff-check
+        name: "🐍 python · Check with Ruff"
+        types_or: [ python, pyi ]
+        args: [ --fix ]
+      - id: ruff-format
+        name: "🐍 python · Format with Ruff"
+        types_or: [ python, pyi ]
+        exclude: |
+          (?x)^(
+            .*\{\{.*\}\}.*|     # Exclude any files with cookiecutter variable, this is an issue with ruff
+          )$
+  ### Notebooks ###
+  - repo: https://github.com/nbQA-dev/nbQA
+    rev: 1.9.1
+    hooks:
+      - id: nbqa
+        entry: nbqa mdformat
+        name: "📓 notebook · Format markdown cells"
+        args: ["--nbqa-md"]
+        types: [jupyter]
+        additional_dependencies:
+          - mdformat
+          - mdformat-gfm
+          - mdformat-ruff
+          - mdformat-frontmatter
+          - ruff
+
+  ### Data & Config Validation ###
+  - repo: https://github.com/python-jsonschema/check-jsonschema
+    rev: 0.33.2
+    hooks:
+      - id: check-github-workflows
+        name: "🐙 github-actions · Validate gh workflow files"
+        args: ["--verbose"]
+      - id: check-taskfile
+        name: "✅ taskfile · Validate Task configuration"
+
+  ### Markdown ###
+  - repo: https://github.com/hukkin/mdformat
+    rev: 0.7.22
+    hooks:
+      - id: mdformat
+        name: "📝 markdown · Format markdown"
+        additional_dependencies:
+          - mdformat-gfm
+          - mdformat-ruff
+          - mdformat-frontmatter
+          - ruff
+
+  - repo: https://github.com/abravalheri/validate-pyproject
+    rev: v0.24.1
+    hooks:
+      - id: validate-pyproject
+        name: "🐍 python · Validate pyproject.toml"
+        additional_dependencies: ["validate-pyproject-schema-store[all]"]
+
+  # ----------------------------- ⚡️ uv Build Tools ---------------------------- #
+  # This helps ensure cross-compatibility with people who don't wish to use uv
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    # uv version.
+    rev: 0.5.27
+    hooks:
+      # STRICT -- This (kind of) enforces use of uv
+      - id: uv-sync
+        name: "⚡️ uv · Sync dependencies with uv"
+      # Update the uv lockfile
+      - id: uv-lock
+        name: "⚡️ uv · Update dependency lockfile"
+      # Export to txt
+      - id: uv-export
+        name: "⚡️ uv · Export dependencies to requirements.txt"
+
+
+  # ---------------------------------------------------------------------------- #
+  #                            📝 Commit Message Hooks                           #
+  # ---------------------------------------------------------------------------- #
+  #
+  # --------------------------- ✍️ Git Commit Quality -------------------------- #
+
+  ### Commit Message Standards ###
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v4.1.0
+    hooks:
+      - id: commitizen
+        name: "🌳 git · Validate commit message"
+        stages: [commit-msg]
+        additional_dependencies: [cz-conventional-gitmoji]
