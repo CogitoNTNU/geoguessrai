@@ -8,7 +8,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Project Version](https://img.shields.io/badge/version-0.0.1-blue)](https://img.shields.io/badge/version-0.0.1-blue)
 
-<img src="docs/images/project-logo.webp" width="50%" alt="Cogito Project Logo" style="display: block; margin-left: auto; margin-right: auto;">
+<img src="docs/images/geoguessrai_logo.png" width="50%" alt="Geoguessr AI Logo" style="display: block; margin-left: auto; margin-right: auto;">
 </div>
 
 <details> 
