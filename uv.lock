@@ -566,7 +566,7 @@ wheels = [
 ]
 
 [[package]]
-name = "project-template"
+name = "geoguessrai"
 version = "0.0.1"
 source = { virtual = "." }
 
