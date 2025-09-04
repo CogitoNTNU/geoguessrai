@@ -2,9 +2,9 @@
 
 <div align="center">
 
-![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/CogitoNTNU/geoguessrai/ci.yml)
-![GitHub top language](https://img.shields.io/github/languages/top/CogitoNTNU/geoguessrai)
-![GitHub language count](https://img.shields.io/github/languages/count/CogitoNTNU/geoguessrai)
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/CogitoNTNU/geoguessr-ai/ci.yml)
+![GitHub top language](https://img.shields.io/github/languages/top/CogitoNTNU/geoguessr-ai)
+![GitHub language count](https://img.shields.io/github/languages/count/CogitoNTNU/geoguessr-ai)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Project Version](https://img.shields.io/badge/version-0.0.1-blue)](https://img.shields.io/badge/version-0.0.1-blue)
 
@@ -14,7 +14,7 @@
 <details> 
 <summary><b>📋 Table of contents </b></summary>
 
-- [geoguessrai](#geoguessrai)
+- [geoguessr-ai](#geoguessr-ai)
   - [Description](#description)
   - [🛠️ Prerequisites](#%EF%B8%8F-prerequisites)
   - [Getting started](#getting-started)
@@ -50,8 +50,8 @@ For example: OS version, programs, libraries, etc.
 1. **Clone the repository**:
 
    ```sh
-   git clone https://github.com/CogitoNTNU/geoguessrai.git
-   cd geoguessrai
+   git clone https://github.com/CogitoNTNU/geoguessr-ai.git
+   cd geoguessr-ai
    ```
 
 1. **Install dependencies**:
@@ -93,7 +93,7 @@ uv run mkdocs build
 uv run mkdocs serve
 ```
 
-This will build the documentation and start a local server at [http://127.0.0.1:8000/](http://127.0.0.1:8000/) where you can browse the docs and API reference. Get the documentation according to the lastes commit on main by viewing the `gh-pages` branch on GitHub: [https://cogitontnu.github.io/geoguessrai/](https://cogitontnu.github.io/geoguessrai/).
+This will build the documentation and start a local server at [http://127.0.0.1:8000/](http://127.0.0.1:8000/) where you can browse the docs and API reference. Get the documentation according to the lastes commit on main by viewing the `gh-pages` branch on GitHub: [https://cogitontnu.github.io/geoguessr-ai/](https://cogitontnu.github.io/geoguessr-ai/).
 
 ## Testing
 

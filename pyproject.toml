@@ -1,5 +1,5 @@
 [project]
-name = "geoguessrai"
+name = "geoguessr-ai"
 version = "0.0.1"
 description = "Add your description here"
 readme = "README.md"

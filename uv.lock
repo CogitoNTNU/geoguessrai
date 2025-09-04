@@ -566,7 +566,7 @@ wheels = [
 ]
 
 [[package]]
-name = "geoguessrai"
+name = "geoguessr-ai"
 version = "0.0.1"
 source = { virtual = "." }
 
